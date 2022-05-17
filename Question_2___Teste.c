@@ -1,40 +1,40 @@
 #define BOTAO GPIO_PORTH_AHB_DATA.B0
 #define SAIDA GPIO_PORTH_AHB_DATA.B1
 
-// Este código Alterna a saída entre ON e OFF a cada vez que o botão é pressionado e em cada uma dessas ações o botão fica desabilitado por 10 segundos, mesmo que pressionado não gera mudança de estado da saída.
-/*Considera-se a aplicação de um microcontrolador que tenha interrupçoes e também que os registradores das interrupçoes e dos I/Os são configurados adequadamente dentro das funções genéricas apresentadas pelos protótipos de funções*/
+// Este cÃ³digo Alterna a saÃ­da entre ON e OFF a cada vez que o botÃ£o Ã© pressionado e em cada uma dessas aÃ§Ãµes o botÃ£o fica desabilitado por 10 segundos, mesmo que pressionado nÃ£o gera mudanÃ§a de estado da saÃ­da.
+/*Considera-se a aplicaÃ§Ã£o de um microcontrolador que tenha interrupÃ§oes e tambÃ©m que os registradores das interrupÃ§oes e dos I/Os sÃ£o configurados adequadamente dentro das funÃ§Ãµes genÃ©ricas apresentadas pelos protÃ³tipos de funÃ§Ãµes*/
 
-void gpio_Digital_Init();// Inicializa I/Os Digitais (define Entradas e Saídas)
-void gpio_Interrupt_Init(); // Inicializa Interrupção de mudança de estado da porta onde o botão está conectado e de Timer
-void Ativa_Interrupcao_MEP(bit status_Imep); // Ativa interrupção de Mudança de estado do port onde o botão está instalado com argumento 0 ou 1 para ativação ou não da interrupção
-void Ativa_Interrupcao_TMR0(bit status_Itmr0); // Ativa interrupção de TIMER0 com argumento 0 ou 1 para ativação ou não da interrupção
-void Carrega_Valor_de_Contagem_TMR0_Para_10segundos();
+void gpio_Digital_Init();// Inicializa I/Os Digitais (define Entradas e SaÃ­das)
+void gpio_Interrupt_Init(); // Inicializa InterrupÃ§Ã£o de mudanÃ§a de estado da porta onde o botÃ£o estÃ¡ conectado e de Timer
+void Ativa_Interrupcao_MEP(bit status_Imep); // Ativa interrupÃ§Ã£o de MudanÃ§a de estado do port onde o botÃ£o estÃ¡ instalado com argumento 0 ou 1 para ativaÃ§Ã£o ou nÃ£o da interrupÃ§Ã£o
+void Ativa_Interrupcao_TMR0(bit status_Itmr0); // Ativa interrupÃ§Ã£o de TIMER0 com argumento 0 ou 1 para ativaÃ§Ã£o ou nÃ£o da interrupÃ§Ã£o
+void Carrega_Valor_de_Contagem_TMR0_Para_10segundos(); // DefiniÃ§Ã£o genÃ©rica que necessita de avaliar tempos de mÃ¡quina para chegar nesse valor de tempo;
 
 void Interrupt(){
-if(TMR0_IE == true) // Avalia Flag da interrupção de Timer se entrou aqui é porque estourou a contagem de 10 segundos
+if(TMR0_IE == true) // Avalia Flag da interrupÃ§Ã£o de Timer se entrou aqui Ã© porque estourou a contagem de 10 segundos
   {
   TMR0_IE = false;
   Ativa_Interrupcao_TMR0(false);
   Ativa_Interrupcao_MEP(true);
   }
-else if(MEP_IE == true) // Avalia Flag da interrupção de Mudança de estado do port do botão (Código genérico dado ser necessário conhecer o Microcontrolador aplicado)
+else if(MEP_IE == true) // Avalia Flag da interrupÃ§Ã£o de MudanÃ§a de estado do port do botÃ£o (CÃ³digo genÃ©rico dado ser necessÃ¡rio conhecer o Microcontrolador aplicado)
   {
   MEP_IE = false;
-  SAIDA = !SAIDA; // Muda de estado anterior da saída
-  Carrega_Valor_de_Contagem_TMR0_Para_10segundos(); // Definição genérica que necessita de avaliar tempos de máquinas para chegar nesse tempo;
+  SAIDA = !SAIDA; // Muda de estado anterior da saÃ­da
+  Carrega_Valor_de_Contagem_TMR0_Para_10segundos(); 
   Ativa_Interrupcao_TMR0(true);
   Ativa_Interrupcao_MEP(false);
   }
 }
 
 void main() {
-// Primeira vez que o código é iniciado se da prioridade a atender os botão
+// Primeira vez que o cÃ³digo Ã© iniciado se da prioridade a atender os botÃ£o
 Ativa_Interrupcao_TMR0(false);
 Ativa_Interrupcao_MEP(true);
 
   while(1)
   {
-  //Todo o código principal
+  //Todo o cÃ³digo principal
 
   }
 
